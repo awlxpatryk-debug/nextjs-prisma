@@ -1,18 +1,24 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  role        String   @default("KIEROWCA") 
+  permissions Json     @default("{}")       
 }
 
-model Todo {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  text      String
-  completed Boolean
+model Rack {
+  id             String   @id @default(cuid())
+  qrCode         String   @unique
+  status         String   @default("MAGAZYN") 
+  type           String   @default("L-FRAME")
+  lengthFull     Float    @default(1.2) 
+  lengthEmpty    Float    @default(0.2) 
 }
